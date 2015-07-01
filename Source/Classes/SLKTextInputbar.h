@@ -91,6 +91,7 @@ typedef NS_ENUM(NSUInteger, SLKCounterPosition) {
 
 /** The 'cancel' button displayed left in the accessoryView. */
 @property (nonatomic, strong) UIButton *editortLeftButton;
+@property (nonatomic, strong) UIButton *editortLeftButton2;
 
 /** The 'accept' button displayed right in the accessoryView. */
 @property (nonatomic, strong) UIButton *editortRightButton;

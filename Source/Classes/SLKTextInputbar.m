@@ -189,7 +189,7 @@
         
         _editorTitle = [UILabel new];
         _editorTitle.translatesAutoresizingMaskIntoConstraints = NO;
-        _editorTitle.text = NSLocalizedString(@"Editing Message", nil);
+        _editorTitle.text = NSLocalizedString(@"", nil);
         _editorTitle.textAlignment = NSTextAlignmentCenter;
         _editorTitle.backgroundColor = [UIColor clearColor];
         _editorTitle.font = [UIFont boldSystemFontOfSize:15.0];
@@ -198,20 +198,28 @@
         _editortLeftButton = [UIButton buttonWithType:UIButtonTypeSystem];
         _editortLeftButton.translatesAutoresizingMaskIntoConstraints = NO;
         _editortLeftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        _editortLeftButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
-        [_editortLeftButton setTitle:NSLocalizedString(@"Cancel", nil) forState:UIControlStateNormal];
+        UIImage *hashImg = [UIImage imageNamed:@"hashtag"];
+        [_editortLeftButton setImage:hashImg forState:UIControlStateNormal];
         [_editorContentView addSubview:self.editortLeftButton];
         
-        _editortRightButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _editortLeftButton2 = [UIButton buttonWithType:UIButtonTypeSystem];
+        _editortLeftButton2.translatesAutoresizingMaskIntoConstraints = NO;
+        _editortLeftButton2.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        UIImage *aAImg = [UIImage imageNamed:@"Aa"];
+        [_editortLeftButton2 setImage:aAImg forState:UIControlStateNormal];
+        [_editorContentView addSubview:self.editortLeftButton2];
+
+        
+        _editortRightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _editortRightButton.translatesAutoresizingMaskIntoConstraints = NO;
         _editortRightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-        _editortRightButton.titleLabel.font = [UIFont boldSystemFontOfSize:15.0];
-        _editortRightButton.enabled = NO;
-        [_editortRightButton setTitle:NSLocalizedString(@"Save", nil) forState:UIControlStateNormal];
+        UIImage *btnPronto = [UIImage imageNamed:@"botao-pronto"];
+        [_editortRightButton setImage:btnPronto forState:UIControlStateNormal];
         [_editorContentView addSubview:self.editortRightButton];
         
         NSDictionary *views = @{@"label": self.editorTitle,
                                 @"leftButton": self.editortLeftButton,
+                                @"leftButton2": self.editortLeftButton2,
                                 @"rightButton": self.editortRightButton,
                                 };
         
@@ -219,8 +227,9 @@
                                   @"right" : @(self.contentInset.right)
                                   };
         
-        [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[leftButton(60)]-(left)-[label(>=0)]-(right)-[rightButton(60)]-(<=right)-|" options:0 metrics:metrics views:views]];
+        [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[leftButton(60)]-(left)-[leftButton2(60)]-(left)-[label(>=0)]-(right)-[rightButton(60)]-(<=right)-|" options:0 metrics:metrics views:views]];
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[leftButton]|" options:0 metrics:metrics views:views]];
+        [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[leftButton2]|" options:0 metrics:metrics views:views]];
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[rightButton]|" options:0 metrics:metrics views:views]];
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[label]|" options:0 metrics:metrics views:views]];
     }
@@ -608,7 +617,7 @@
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=rightVerMargin)-[rightButton]-(<=rightVerMargin)-|" options:0 metrics:metrics views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left@250)-[charCountLabel(<=50@1000)]-(right@750)-|" options:0 metrics:metrics views:views]];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[contentView(0)]-(<=top)-[textView(minTextViewHeight@250)]-(bottom)-|" options:0 metrics:metrics views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[textView(minTextViewHeight@250)]-(<=top)-[contentView(0)]-(bottom)-|" options:0 metrics:metrics views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:metrics views:views]];
     
     self.editorContentViewHC = [self slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.editorContentView secondItem:nil];
@@ -693,6 +702,7 @@
     _editorContentView = nil;
     _editorTitle = nil;
     _editortLeftButton = nil;
+    _editortLeftButton2 = nil;
     _editortRightButton = nil;
     
     _leftButtonWC = nil;

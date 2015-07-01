@@ -1760,7 +1760,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
                             @"textInputbar": self.textInputbar,
                             };
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollView(0@750)][autoCompletionView(0@750)][typingIndicatorView(0)]-0@999-[textInputbar(>=0)]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollView(0@750)][autoCompletionView(0@750)][typingIndicatorView(0)]-0@999-[textInputbar(>=80)]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[scrollView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[autoCompletionView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[typingIndicatorView]|" options:0 metrics:nil views:views]];
@@ -1775,9 +1775,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
     self.textInputbarHC.constant = self.textInputbar.minimumInputbarHeight;
     self.scrollViewHC.constant = [self slk_appropriateScrollViewHeight];
 
-    if (self.textInputbar.isEditing) {
-        self.textInputbarHC.constant += self.textInputbar.editorContentViewHeight;
-    }
+    self.textInputbarHC.constant += self.textInputbar.editorContentViewHeight;
 }
 
 
