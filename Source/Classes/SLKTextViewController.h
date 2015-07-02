@@ -106,6 +106,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 @property (nonatomic, readonly) UIButton *leftButton;
 @property (nonatomic, readonly) UIButton *rightButton;
 
+// The current keyboard status (hidden, showing, etc.)
+@property (nonatomic) SLKKeyboardStatus keyboardStatus;
 
 #pragma mark - Initialization
 ///------------------------------------------------
@@ -327,6 +329,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
  @param sender The object calling this method.
  */
 - (void)didCancelTextEditing:(id)sender NS_REQUIRES_SUPER;
+- (void)didSelectTextInput:(id)sender NS_REQUIRES_SUPER;
+- (void)didSelectHashtagInput:(id)sender NS_REQUIRES_SUPER;
 
 
 #pragma mark - Text Auto-Completion

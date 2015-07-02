@@ -54,8 +54,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
 // The setter of isExternalKeyboardDetected, for private use.
 @property (nonatomic, assign) BOOL externalKeyboardDetected;
 
-// The current keyboard status (hidden, showing, etc.)
-@property (nonatomic) SLKKeyboardStatus keyboardStatus;
+
 
 // YES if a new word has been typed recently
 @property (nonatomic) BOOL newWordInserted;
@@ -81,6 +80,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
 @synthesize autoCompleting = _autoCompleting;
 @synthesize scrollViewProxy = _scrollViewProxy;
 @synthesize presentedInPopover = _presentedInPopover;
+@synthesize keyboardStatus = _keyboardStatus;
 
 #pragma mark - Initializer
 
@@ -309,7 +309,8 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
         
         [_textInputbar.leftButton addTarget:self action:@selector(didPressLeftButton:) forControlEvents:UIControlEventTouchUpInside];
         [_textInputbar.rightButton addTarget:self action:@selector(didPressRightButton:) forControlEvents:UIControlEventTouchUpInside];
-        [_textInputbar.editortLeftButton addTarget:self action:@selector(didCancelTextEditing:) forControlEvents:UIControlEventTouchUpInside];
+        [_textInputbar.editortLeftButton addTarget:self action:@selector(didSelectHashtagInput:) forControlEvents:UIControlEventTouchUpInside];
+        [_textInputbar.editortLeftButton2 addTarget:self action:@selector(didSelectTextInput:) forControlEvents:UIControlEventTouchUpInside];
         [_textInputbar.editortRightButton addTarget:self action:@selector(didCommitTextEditing:) forControlEvents:UIControlEventTouchUpInside];
         
         _textInputbar.textView.delegate = self;
@@ -715,7 +716,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
     [self presentKeyboard:YES];
 }
 
-- (void)didCommitTextEditing:(id)sender
+- (void)didSelectHashtagInput:(id)sender
 {
     if (!self.textInputbar.isEditing) {
         return;
@@ -725,6 +726,21 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
     
     // Clears the text and but not the undo manager
     [self.textView slk_clearText:NO];
+}
+
+- (void)didSelectTextInput:(id)sender
+{
+    if (!self.textInputbar.isEditing) {
+        return;
+    }
+    
+    [self.textInputbar endTextEdition];
+    
+    // Clears the text and but not the undo manager
+    [self.textView slk_clearText:NO];
+    
+    // Restores any previous cached text before entering in editing mode
+    [self slk_reloadTextView];
 }
 
 - (void)didCancelTextEditing:(id)sender
@@ -1130,6 +1146,10 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
         dispatch_async(dispatch_get_main_queue(), ^{
             [self slk_processTextForAutoCompletion];
         });
+    }
+    
+    if (![self.textView isFirstResponder] && status == SLKKeyboardStatusDidHide && ![self.textView hasText]) {
+        [self didCancelTextEditing:self.textView];
     }
     
     // Updates and notifies about the keyboard status update
