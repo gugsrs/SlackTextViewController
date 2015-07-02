@@ -156,7 +156,7 @@
 {
     if (!_leftButton)
     {
-        _leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _leftButton.translatesAutoresizingMaskIntoConstraints = NO;
         _leftButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
     }
@@ -195,14 +195,14 @@
         _editorTitle.font = [UIFont boldSystemFontOfSize:15.0];
         [_editorContentView addSubview:self.editorTitle];
         
-        _editortLeftButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _editortLeftButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _editortLeftButton.translatesAutoresizingMaskIntoConstraints = NO;
         _editortLeftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         UIImage *hashImg = [UIImage imageNamed:@"hashtag"];
         [_editortLeftButton setImage:hashImg forState:UIControlStateNormal];
         [_editorContentView addSubview:self.editortLeftButton];
         
-        _editortLeftButton2 = [UIButton buttonWithType:UIButtonTypeSystem];
+        _editortLeftButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
         _editortLeftButton2.translatesAutoresizingMaskIntoConstraints = NO;
         _editortLeftButton2.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         UIImage *aAImg = [UIImage imageNamed:@"Aa"];
@@ -227,7 +227,7 @@
                                   @"right" : @(self.contentInset.right)
                                   };
         
-        [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[leftButton(60)]-(left)-[leftButton2(60)]-(left)-[label(>=0)]-(right)-[rightButton(60)]-(<=right)-|" options:0 metrics:metrics views:views]];
+        [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[leftButton(30)]-(left)-[leftButton2(40)]-(left)-[label(>=0)]-(right)-[rightButton(80)]-(<=right)-|" options:0 metrics:metrics views:views]];
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[leftButton]|" options:0 metrics:metrics views:views]];
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[leftButton2]|" options:0 metrics:metrics views:views]];
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[rightButton]|" options:0 metrics:metrics views:views]];
