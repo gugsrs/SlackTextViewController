@@ -1703,10 +1703,10 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
 
 #pragma mark - UIScrollViewDelegate Methods
 
-- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView
-{
-    return [self slk_scrollToTopIfNeeded];
-}
+//- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView
+//{
+//    return [self slk_scrollToTopIfNeeded];
+//}
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
@@ -1718,20 +1718,20 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
     self.movingKeyboard = NO;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if ([scrollView isEqual:self.autoCompletionView]) {
-        CGRect frame = self.autoCompletionHairline.frame;
-        frame.origin.y = scrollView.contentOffset.y;
-        self.autoCompletionHairline.frame = frame;
-    }
-    else {
-        if (!self.isMovingKeyboard) {
-            _scrollViewOffsetBeforeDragging = scrollView.contentOffset;
-            _keyboardHeightBeforeDragging = self.keyboardHC.constant;
-        }
-    }
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    if ([scrollView isEqual:self.autoCompletionView]) {
+//        CGRect frame = self.autoCompletionHairline.frame;
+//        frame.origin.y = scrollView.contentOffset.y;
+//        self.autoCompletionHairline.frame = frame;
+//    }
+//    else {
+//        if (!self.isMovingKeyboard) {
+//            _scrollViewOffsetBeforeDragging = scrollView.contentOffset;
+//            _keyboardHeightBeforeDragging = self.keyboardHC.constant;
+//        }
+//    }
+//}
 
 
 #pragma mark - UIGestureRecognizerDelegate Methods
