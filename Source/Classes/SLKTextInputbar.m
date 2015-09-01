@@ -139,8 +139,8 @@
         _textView.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, -1.0, 0.0, 1.0);
         _textView.textContainerInset = UIEdgeInsetsMake(8.0, 4.0, 8.0, 0.0);
         _textView.layer.cornerRadius = 5.0;
-        _textView.layer.borderWidth = 0.5;
-        _textView.layer.borderColor =  [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:205.0/255.0 alpha:1.0].CGColor;
+//        _textView.layer.borderWidth = 0.5;
+//        _textView.layer.borderColor =  [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:205.0/255.0 alpha:1.0].CGColor;
         
         // Adds an aditional action to a private gesture to detect when the magnifying glass becomes visible
         for (UIGestureRecognizer *gesture in _textView.gestureRecognizers) {
@@ -212,9 +212,11 @@
         
         _editortRightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _editortRightButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _editortRightButton.frame = CGRectMake(0, 0, 80.0, 60.0);
         _editortRightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         UIImage *btnPronto = [UIImage imageNamed:@"botao-pronto"];
-        [_editortRightButton setImage:btnPronto forState:UIControlStateNormal];
+        [_editortRightButton setBackgroundImage:btnPronto forState:UIControlStateNormal];
+//        [_editortRightButton setImage:btnPronto forState:UIControlStateNormal];
         [_editorContentView addSubview:self.editortRightButton];
         
         NSDictionary *views = @{@"label": self.editorTitle,
@@ -224,13 +226,15 @@
                                 };
         
         NSDictionary *metrics = @{@"left" : @(self.contentInset.left),
-                                  @"right" : @(self.contentInset.right)
+                                  @"right" : @(self.contentInset.right),
+                                  @"top" : @(self.contentInset.top),
+                                  @"bottom" : @(self.contentInset.bottom)
                                   };
         
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(15)-[leftButton(30)]-(left)-[leftButton2(40)]-(left)-[label(>=0)]-(right)-[rightButton(80)]-(<=right)-|" options:0 metrics:metrics views:views]];
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[leftButton]|" options:0 metrics:metrics views:views]];
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[leftButton2]|" options:0 metrics:metrics views:views]];
-        [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[rightButton]|" options:0 metrics:metrics views:views]];
+        [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(5)-[rightButton]-(5)-|" options:0 metrics:metrics views:views]];
         [_editorContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[label]|" options:0 metrics:metrics views:views]];
     }
     return _editorContentView;
