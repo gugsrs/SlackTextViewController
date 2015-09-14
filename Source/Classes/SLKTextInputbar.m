@@ -200,6 +200,7 @@
         _editortLeftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         UIImage *hashImg = [UIImage imageNamed:@"hashtag"];
         [_editortLeftButton setImage:hashImg forState:UIControlStateNormal];
+        [_editortLeftButton setImage:hashImg forState:UIControlStateHighlighted];
         [_editorContentView addSubview:self.editortLeftButton];
         
         _editortLeftButton2 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -207,6 +208,7 @@
         _editortLeftButton2.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         UIImage *aAImg = [UIImage imageNamed:@"Aa"];
         [_editortLeftButton2 setImage:aAImg forState:UIControlStateNormal];
+        [_editortLeftButton2 setImage:aAImg forState:UIControlStateHighlighted];
         [_editorContentView addSubview:self.editortLeftButton2];
 
         
