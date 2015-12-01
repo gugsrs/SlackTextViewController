@@ -75,13 +75,13 @@
     self.autoHideRightButton = YES;
     self.editorContentViewHeight = 38.0;
     self.contentInset = UIEdgeInsetsMake(5.0, 8.0, 5.0, 8.0);
-    
+
     [self addSubview:self.editorContentView];
     [self addSubview:self.leftButton];
     [self addSubview:self.rightButton];
     [self addSubview:self.textView];
     [self addSubview:self.charCountLabel];
-    
+
     [self slk_setupViewConstraints];
     [self slk_updateConstraintConstants];
     
@@ -139,8 +139,8 @@
         _textView.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, -1.0, 0.0, 1.0);
         _textView.textContainerInset = UIEdgeInsetsMake(8.0, 4.0, 8.0, 0.0);
         _textView.layer.cornerRadius = 5.0;
-        //        _textView.layer.borderWidth = 0.5;
-        //        _textView.layer.borderColor =  [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:205.0/255.0 alpha:1.0].CGColor;
+//        _textView.layer.borderWidth = 0.5;
+//        _textView.layer.borderColor =  [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:205.0/255.0 alpha:1.0].CGColor;
         
         // Adds an aditional action to a private gesture to detect when the magnifying glass becomes visible
         for (UIGestureRecognizer *gesture in _textView.gestureRecognizers) {
@@ -210,7 +210,7 @@
         [_editortLeftButton2 setImage:aAImg forState:UIControlStateNormal];
         [_editortLeftButton2 setImage:aAImg forState:UIControlStateHighlighted];
         [_editorContentView addSubview:self.editortLeftButton2];
-        
+
         
         _editortRightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _editortRightButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -218,7 +218,7 @@
         _editortRightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         UIImage *btnPronto = [UIImage imageNamed:@"botao-pronto"];
         [_editortRightButton setBackgroundImage:btnPronto forState:UIControlStateNormal];
-        //        [_editortRightButton setImage:btnPronto forState:UIControlStateNormal];
+//        [_editortRightButton setImage:btnPronto forState:UIControlStateNormal];
         [_editorContentView addSubview:self.editortRightButton];
         
         NSDictionary *views = @{@"label": self.editorTitle,
@@ -460,7 +460,7 @@
     if (self.isEditing && [self.textView.text isEqualToString:text]) {
         return NO;
     }
-    
+
     return YES;
 }
 
@@ -601,7 +601,7 @@
     
     CGFloat leftVerMargin = (self.intrinsicContentSize.height - leftButtonImg.size.height) / 2.0;
     CGFloat rightVerMargin = (self.intrinsicContentSize.height - CGRectGetHeight(self.rightButton.frame)) / 2.0;
-    
+
     NSDictionary *views = @{@"textView": self.textView,
                             @"leftButton": self.leftButton,
                             @"rightButton": self.rightButton,
@@ -633,7 +633,7 @@
     
     self.leftMarginWC = [self slk_constraintsForAttribute:NSLayoutAttributeLeading][0];
     self.bottomMarginWC = [self slk_constraintForAttribute:NSLayoutAttributeBottom firstItem:self secondItem:self.leftButton];
-    
+
     self.rightButtonWC = [self slk_constraintForAttribute:NSLayoutAttributeWidth firstItem:self.rightButton secondItem:nil];
     self.rightMarginWC = [self slk_constraintsForAttribute:NSLayoutAttributeTrailing][0];
 }
@@ -641,7 +641,7 @@
 - (void)slk_updateConstraintConstants
 {
     CGFloat zero = 0.0;
-    
+
     if (self.isEditing)
     {
         self.editorContentViewHC.constant = self.editorContentViewHeight;
@@ -654,7 +654,7 @@
     }
     else {
         self.editorContentViewHC.constant = zero;
-        
+
         CGSize leftButtonSize = [self.leftButton imageForState:self.leftButton.state].size;
         
         if (leftButtonSize.width > 0) {
