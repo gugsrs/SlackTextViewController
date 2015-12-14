@@ -3,9 +3,9 @@
 [![Build Status](https://img.shields.io/travis/slackhq/SlackTextViewController.svg?style=flat-square)](https://travis-ci.org/slackhq/SlackTextViewController)
 [![Coverage Status](https://img.shields.io/coveralls/slackhq/SlackTextViewController/master.svg?style=flat-square)](https://coveralls.io/r/slackhq/SlackTextViewController)
 
-[![Pod Version](http://img.shields.io/cocoapods/v/SlackTextViewController.svg?style=flat-square)](https://cocoadocs.org/docsets/SlackTextViewController)
+[![Pod Version](https://img.shields.io/cocoapods/v/SlackTextViewController.svg?style=flat-square)](https://cocoadocs.org/docsets/SlackTextViewController)
 [![Carthage compatible](https://img.shields.io/badge/carthage-compatible-F5B369.svg?style=flat-square)](https://github.com/Carthage/Carthage)
-[![License](http://img.shields.io/badge/license-apache%202.0-blue.svg?style=flat-square)](http://opensource.org/licenses/Apache2.0)
+[![License](https://img.shields.io/badge/license-apache%202.0-blue.svg?style=flat-square)](http://opensource.org/licenses/Apache2.0)
 
 
 A drop-in UIViewController subclass with a growing text input view and other useful messaging features. Meant to be a replacement for UITableViewController & UICollectionViewController.
@@ -14,7 +14,7 @@ A drop-in UIViewController subclass with a growing text input view and other use
 
 This library is used in Slack's iOS app. It was built to fit our needs, but is flexible enough to be reused by others wanting to build great messaging apps for iOS.
 
-## Features
+## Feature List
 
 ### Core
 - Works out of the box with [UITableView or UICollectionView or UIScrollView](https://github.com/slackhq/SlackTextViewController/tree/swift-example#subclassing)
@@ -22,33 +22,39 @@ This library is used in Slack's iOS app. It was built to fit our needs, but is f
 - Flexible UI built with Auto Layout
 - Customizable: provides left and right button, and toolbar outlets
 - Tap Gesture for dismissing the keyboard
-- [Panning Gesture](https://github.com/slackhq/SlackTextViewController#panning-gesture) for sliding down the keyboard
 - [External keyboard](https://github.com/slackhq/SlackTextViewController#external-keyboard) commands support
 - Undo/Redo (with keyboard commands and UIMenuController)
 - Text Appending APIs
 
-### Optional
+### Additional
 - [Autocomplete Mode](https://github.com/slackhq/SlackTextViewController#autocompletion) by registering any prefix key (`@`, `#`, `/`)
 - [Edit Mode](https://github.com/slackhq/SlackTextViewController#edit-mode)
+- [Markdown Formatting](https://github.com/slackhq/SlackTextViewController#markdown-formatting)
 - [Typing Indicator](https://github.com/slackhq/SlackTextViewController#typing-indicator) display
 - [Shake Gesture](https://github.com/slackhq/SlackTextViewController#shake-gesture) for clearing text view
 - Multimedia Pasting (png, gif, mov, etc.)
 - [Inverted Mode](https://github.com/slackhq/SlackTextViewController#inverted-mode) for displaying cells upside-down (using CATransform) -- a necessary hack for some messaging apps. `YES` by default, so beware, your entire cells might be flipped!
+- Tap Gesture for dismissing the keyboard
+- [Panning Gesture](https://github.com/slackhq/SlackTextViewController#panning-gesture) for sliding down/up the keyboard
+- [Hiddable TextInputbar](https://github.com/slackhq/SlackTextViewController#hiddable-textinputbar)
+- [Dynamic Type](https://github.com/slackhq/SlackTextViewController#dynamic-type) for adjusting automatically the text input bar height based on the font size.
 - Bouncy Animations
 
 ### Compatibility
+- Carthage & Cocoapods
 - Swift: [A sample project is available in a different branch] (https://github.com/slackhq/SlackTextViewController/tree/swift-example)
-- iOS 7 & 8
+- iOS 7, 8 & 9
 - iPhone & iPad
 - [Storyboard](https://github.com/slackhq/SlackTextViewController#storyboard)
 - UIPopOverController & UITabBarController
 - Container View Controller
 - Auto-Rotation
+- iPad Multitasking (iOS 9 only)
 - Localization
 
 ## Installation
 
-###### With [Cocoa Pods](http://cocoapods.org):
+###### With [Cocoa Pods](https://cocoapods.org/):
 ```ruby
 pod 'SlackTextViewController'
 ```
@@ -62,6 +68,7 @@ github "slackhq/SlackTextViewController"
 There are two ways to do this:
 - Copy and drag the `Source/` folder to your project.
 - or compile the project located in `Builder/SlackTextViewController.xcodeproj` to create a `SlackTextViewController.framework` package. You could also [link the library into your project](https://developer.apple.com/library/ios/recipes/xcode_help-project_editor/Articles/AddingaLibrarytoaTarget.html#//apple_ref/doc/uid/TP40010155-CH17-SW1).
+
 
 ##How to use
 
@@ -85,10 +92,40 @@ or the `UIScrollView` version:
 [super initWithScrollView:self.myStrongScrollView]
 ```
 
-
 Protocols like `UITableViewDelegate` and `UITableViewDataSource` are already setup for you. You will be able to call whatever delegate and data source methods you need for customising your control.
 
 Calling `[super init]` will call `[super initWithTableViewStyle:UITableViewStylePlain]` by default.
+
+###Storyboard
+
+When using SlackTextViewController with storyboards, instead of overriding the traditional `initWithCoder:` you will need to override any of the two custom methods below. This approach helps preserving the exact same features from the programatic approach, but also limits the edition of the nib of your `SLKTextViewController` subclass since it doesn't layout subviews from the nib (subviews are still initialized and layed out programatically).
+
+if you wish to use the `UITableView` version, call:
+```objc
++ (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder
+{
+    return UITableViewStylePlain;
+}
+```
+
+or the `UICollectionView` version:
+```objc
++ (UICollectionViewLayout *)collectionViewLayoutForCoder:(NSCoder *)decoder
+{
+    return [UICollectionViewFlowLayout new];
+}
+```
+
+###Sample Project
+
+Check out the sample project,  everything is demo'd there.
+There are 2 main examples (different targets) for testing the programatic and storyboard approaches. Most of the features are implemented for you to quickly start using them.
+
+A CollectionView example, using Swift, is in progress on the `swift-example` branch. The idea with this project is to build a custom collection view layout allowing to display cells from the bottom (currently working but needs serious tweaks to make it perfect).
+Feel free to contribute!
+
+
+##Features
 
 
 ###Growing Text View
@@ -103,6 +140,20 @@ By default, the number of lines is set to best fit each device dimensions:
 - iPad          (>=768pts): 8 lines
 
 On iPhone devices, in landscape orientation, the maximum number of lines is changed to fit the available space.
+
+
+###Inverted Mode
+
+Some layouts may require to show from bottom to top and new subviews are inserted from the bottom. To enable this, you must use the `inverted` flag property (default is YES). This will actually invert the entire ScrollView object. Make sure to apply the same transformation to every subview. In the case of UITableView, the best place for adjusting the transformation is in its data source methods like:
+
+````objc
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:chatCellIdentifier];
+    cell.transform = self.tableView.transform;
+}
+````
+
 
 ###Autocompletion
 
@@ -121,14 +172,11 @@ You must first register all the prefixes you'd like to support for autocompletio
 #### 2. Processing
 Every time a new character is inserted in the text view, the nearest word to the caret will be processed and verified if it contains any of the registered prefixes.
 
-Once the prefix has been detected, `-canShowAutoCompletion` will be called. This is the perfect place to populate your data source, and return a BOOL if the autocompletion view should actually be shown. So you must override it in your subclass, to be able to perform additional tasks. Default returns NO.
+Once the prefix has been detected, `-didChangeAutoCompletionPrefix:andWord:` will be called. This is the perfect place to populate your data source and show/hide the autocompletion view. So you must override it in your subclass, to be able to perform additional tasks. Default returns NO.
 
 ````objc
-- (BOOL)canShowAutoCompletion
+- (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word
 {
-    NSString *prefix = self.foundPrefix;
-    NSString *word = self.foundWord;
-    
     self.searchResult = [[NSArray alloc] initWithArray:self.channels];
     
     if ([prefix isEqualToString:@"#"])
@@ -142,13 +190,15 @@ Once the prefix has been detected, `-canShowAutoCompletion` will be called. This
         self.searchResult = [self.searchResult sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     }
     
-    return self.searchResult.count > 0;
+    BOOL show = (self.searchResult.count > 0);
+    
+    [self showAutoCompletionView:show];
 }
 ````
 
 The autocompletion view is a `UITableView` instance, so you will need to use `UITableViewDataSource` to populate its cells. You have complete freedom for customizing the cells.
 
-You don't need to call `-reloadData` yourself, since it will be called automatically if you return `YES` in `-canShowAutoCompletion` method.
+You don't need to call `-reloadData` yourself, since it will be invoked automatically right after calling the `-showAutoCompletionView` method.
 
 #### 3. Layout
 
@@ -213,6 +263,67 @@ Notice that you must call `super` at some point, so the text input exits the edi
 Use the `editing` property to know if the editing mode is on.
 
 
+###Markdown Formatting
+
+![Markdown Formatting](Screenshots/screenshot_markdown-formatting.png)
+
+You can register markdown formatting symbols so they can easily be used to wrap a text selection, with the help of the  native contextual menu, aka `UIMenuController`. This feature doesn't take care of the rendering of the markdown: it's sole purpose is to ease the formatting tools to the user.
+Optionally, you can enable `autoCompleteFormatting` so any pending markdown closure symbol can be added automatically after double tapping on the keyboard spacebar, just like the native gesture to add a sentence period. The sentence period is still being added as a fallback.
+
+![Markdown Formatting Animated](Screenshots/screenshot_markdown-formatting.gif)
+
+
+#### 1. Registration
+
+You must first register the formatting symbol and assign a title string to be used in the menu controller item.
+````objc
+[self.textView registerMarkdownFormattingSymbol:@"*" withTitle:@"Bold"];
+````
+
+#### 2. Customisation
+
+Futher more, you can customise some of the behavior for special formatting cases, using the `UITextViewDelegate` methods.
+In the following example, we don't present the Quote formatting in the contextual menu when the text selection isn't a paragraph.
+
+````objc
+- (BOOL)textView:(SLKTextView *)textView shouldOfferFormattingForSymbol:(NSString *)symbol
+{
+    if ([symbol isEqualToString:@">"]) {
+        
+        NSRange selection = textView.selectedRange;
+        
+        // The Quote formatting only applies new paragraphs
+        if (selection.location == 0 && selection.length > 0) {
+            return YES;
+        }
+        
+        // or older paragraphs too
+        NSString *prevString = [textView.text substringWithRange:NSMakeRange(selection.location-1, 1)];
+        
+        if ([[NSCharacterSet newlineCharacterSet] characterIsMember:[prevString characterAtIndex:0]]) {
+            return YES;
+        }
+
+        return NO;
+    }
+    
+    return [super textView:textView shouldOfferFormattingForSymbol:symbol];
+}
+````
+
+In this other method implementation, we don't want to allow auto-completion for the Quote formatting since it doesn't require a closure.
+````objc
+- (BOOL)textView:(SLKTextView *)textView shouldInsertSuffixForFormattingWithSymbol:(NSString *)symbol prefixRange:(NSRange)prefixRange
+{
+    if ([symbol isEqualToString:@">"]) {
+        return NO;
+    }
+    
+    return [super textView:textView shouldInsertSuffixForFormattingWithSymbol:symbol prefixRange:prefixRange];
+}
+````
+
+
 ###Typing Indicator
 
 ![Typing Indicator](Screenshots/screenshot_typing-indicator.png)
@@ -225,9 +336,20 @@ You can remove names from the list by calling `[self.typingIndicatorView removeU
 
 You can also dismiss it by calling `[self.typingIndicatorView dismissIndicator];`
 
+
 ###Panning Gesture
 
-Dismissing the keyboard with a panning gesture is enabled by default with the `keyboardPanningEnabled` property. You can always disable it if you'd like.
+Dismissing the keyboard with a panning gesture is enabled by default with the `keyboardPanningEnabled` property. You can always disable it if you'd like. You can extend the `verticalPanGesture` behaviors with the `UIGestureRecognizerDelegate` methods.
+
+
+###Hiddable TextInputbar
+
+Sometimes you may need to hide the text input bar.
+Very similar to `UINavigationViewController`'s API, simply do:
+```objc
+[self setTextInputbarHidden:YES animated:YES];
+```
+
 
 ###Shake Gesture
 
@@ -237,22 +359,8 @@ A shake gesture to clear text is enabled by default with the `undoShakingEnabled
 
 You can optionally override `-willRequestUndo`, to implement your UI to ask the users if he would like to clean the text view's text. If there is not text entered, the method will not be called.
 
-If you don't override `-willRequestUndo` and `undoShakingEnabled` is set to `YES`, a system UIAlertView will prompt.
+If you don't override `-willRequestUndo` and `undoShakingEnabled` is set to `YES`, a system UIAlertView will 
 
-###Inverted Mode
-
-Some UITableView layouts may require that new messages enter from bottom to top. To enable this, you must use the `inverted` flag property. This will actually invert the UITableView or UICollectionView, so you will need to do a transform adjustment in your UITableViewDataSource method `-tableView:cellForRowAtIndexPath:` for the cells to show correctly.
-
-````objc
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:chatCellIdentifier];
-    
-    // Cells must inherit the table view's transform
-    // This is very important, since the main table view may be inverted
-    cell.transform = self.tableView.transform;
-}
-````
 
 ###External Keyboard
 
@@ -280,37 +388,17 @@ To add additional key commands, simply override `-keyCommands` and append `super
 }
 ````
 
-##Storyboard
-
-When using SlackTextViewController with storyboards, instead of overriding the traditional `initWithCoder:` you will need to override any of the two custom methods below. This approach helps preserving the exact same features from the programatic approach, but also limits the edition of the nib of your `SLKTextViewController` subclass since it doesn't layout subviews from the nib (subviews are still initialized and layed out programatically).
-
-if you wish to use the `UITableView` version, call:
-```objc
-+ (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder
-{
-    return UITableViewStylePlain;
-}
-```
-
-or the `UICollectionView` version:
-```objc
-+ (UICollectionViewLayout *)collectionViewLayoutForCoder:(NSCoder *)decoder
-{
-    return [UICollectionViewFlowLayout new];
-}
-```
+There are also a set of useful flags for keyboard special detections such as `isExternalKeyboardDetected`, `isKeyboardUndocked`, `typingSuggestionEnabled` and `isTrackpadEnabled` (iOS 9 only)
 
 
-##Sample Project
+###Dynamic Type
 
-Check out the sample project,  everything is demo'd there.
-There are 2 main examples (different targets) for testing the programatic and storyboard approaches.
+Dynamic Type is enabled by default with the `keyboardPanningEnabled` property. You can always disable it if you'd like, but the text input bar would still adjust to best fit the font size of the text view.
 
-A CollectionView example, using Swift, is in progress on the `swift-example` branch. The idea with this project is to build a custom collection view layout allowing to display cells from the bottom (currently working but needs serious tweaks to make it perfect).
-Feel free to contribute!
+![Dynamic-Type](Screenshots/screenshot_dynamic-type.png)
 
 
-##XCode Templates
+###XCode Templates
 
 ![Template](Screenshots/screenshot_template.png)
 
@@ -321,4 +409,4 @@ To install them, open up your terminal and type:
 sh ./SlackTextViewController/File\ Templates/install.sh
 ```
 
-These templates are also available in [Alcatraz](https://github.com/supermarin/Alcatraz).
+These templates are also available in [Alcatraz](https://github.com/alcatraz/Alcatraz).
