@@ -232,19 +232,19 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
         [_editorContentView addSubview:self.editortLeftButton2];
         
         
-        _editortRightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _editortRightButton.translatesAutoresizingMaskIntoConstraints = NO;
-        _editortRightButton.frame = CGRectMake(0, 0, 80.0, 60.0);
-        _editortRightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        _editorRightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _editorRightButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _editorRightButton.frame = CGRectMake(0, 0, 80.0, 60.0);
+        _editorRightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         UIImage *btnPronto = [UIImage imageNamed:@"botao-pronto"];
-        [_editortRightButton setBackgroundImage:btnPronto forState:UIControlStateNormal];
+        [_editorRightButton setBackgroundImage:btnPronto forState:UIControlStateNormal];
         //        [_editortRightButton setImage:btnPronto forState:UIControlStateNormal];
-        [_editorContentView addSubview:self.editortRightButton];
+        [_editorContentView addSubview:self.editorRightButton];
         
         NSDictionary *views = @{@"label": self.editorTitle,
                                 @"leftButton": self.editortLeftButton,
                                 @"leftButton2": self.editortLeftButton2,
-                                @"rightButton": self.editortRightButton,
+                                @"rightButton": self.editorRightButton,
                                 };
         
         NSDictionary *metrics = @{@"left" : @(self.contentInset.left),
@@ -280,17 +280,17 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
 
 - (UIButton *)editorLeftButton
 {
-    if (!_editorLeftButton) {
-        _editorLeftButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        _editorLeftButton.translatesAutoresizingMaskIntoConstraints = NO;
-        _editorLeftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        _editorLeftButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
+    if (!_editortLeftButton) {
+        _editortLeftButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        _editortLeftButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _editortLeftButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        _editortLeftButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
         
         NSString *title = NSLocalizedString(@"Cancel", nil);
         
-        [_editorLeftButton setTitle:title forState:UIControlStateNormal];
+        [_editortLeftButton setTitle:title forState:UIControlStateNormal];
     }
-    return _editorLeftButton;
+    return _editortLeftButton;
 }
 
 - (UIButton *)editorRightButton
@@ -643,7 +643,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
 {
     [self.rightButton sizeToFit];
     
-    CGFloat leftVerMargin = (self.intrinsicContentSize.height - leftButtonImg.size.height - 15.0) / 2.0;
+//    CGFloat leftVerMargin = (self.intrinsicContentSize.height - leftButtonImg.size.height - 15.0) / 2.0;
     CGFloat rightVerMargin = (self.intrinsicContentSize.height - CGRectGetHeight(self.rightButton.frame)) / 2.0;
     
     NSDictionary *views = @{@"textView": self.textView,
@@ -806,7 +806,7 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
     _editorTitle = nil;
     _editortLeftButton = nil;
     _editortLeftButton2 = nil;
-    _editortRightButton = nil;
+    _editorRightButton = nil;
     
     _leftButtonWC = nil;
     _leftButtonHC = nil;
